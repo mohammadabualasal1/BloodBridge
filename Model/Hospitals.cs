@@ -4,7 +4,7 @@ namespace BloodBridge.Model
 {
     public class Hospitals
     {
-        public long HospitalId { get; set; }
+        public long Id { get; set; }
 
 
         [ForeignKey("User")]

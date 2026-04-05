@@ -3,8 +3,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BloodBridge
 {
-    public class BloodBridgeDbContext
+    public class BloodBridgeDbContext : DbContext
     {
+        public BloodBridgeDbContext(DbContextOptions<BloodBridgeDbContext> options) : base(options)
+        {
+        }   
+
+
         public DbSet<User> Users { get; set; }
 
         public DbSet<Donors> Donors { get; set; }
@@ -18,4 +23,4 @@ namespace BloodBridge
         public DbSet<BloodRequests> BloodRequests { get; set; }
     }
 }
-}
+

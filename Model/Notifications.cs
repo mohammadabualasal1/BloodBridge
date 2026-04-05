@@ -4,7 +4,7 @@ namespace BloodBridge.Model
 {
     public class Notifications
     {
-        public long NotificationId { get; set; }
+        public long Id { get; set; }
 
         [ForeignKey("User")]
         public long? UserId { get; set; }

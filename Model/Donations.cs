@@ -5,7 +5,7 @@ namespace BloodBridge.Model
 {
     public class Donations
     {
-        public long DonationId { get; set; }
+        public long Id { get; set; }
 
         [ForeignKey("Donor")]
         public long? DonorId { get; set; }
