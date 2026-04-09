@@ -71,9 +71,7 @@ namespace BloodBridge.Controllers
             hospital.IsVerified = true;
             await _dbContext.SaveChangesAsync();
             return Ok(new { message = "Hospital verified successfully" });
-
-
-
+            
         }
     }
 }
