@@ -63,18 +63,25 @@ namespace BloodBridge.Controllers
             return Ok(donor);
         }
 
+        [HttpGet("GetAllDonors")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetAllDonors()
+        {
+            var data = _dbContext.Donors.Include(d => d.User).Select(x => new
+            {
+                x.Id,
+                x.BloodType,
+                x.City,
+                x.IsAvailable,
+                x.LastDonation
+            }).ToList();
 
-
-
-
-
-
-
-
-
-
-
-
-
+            return Ok(data);
         }
+
+
+
+
+
+    }
 }
