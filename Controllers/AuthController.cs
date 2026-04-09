@@ -53,14 +53,16 @@ namespace BloodBridge.Controllers
             if(user != null)
             {
                 var tokenHandler = new JwtSecurityTokenHandler();
-                var key = System.Text.Encoding.ASCII.GetBytes(_configuration["Jwt:Key"]);
+                var key = System.Text.Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]);
                 var tokenDescriptor = new SecurityTokenDescriptor
                 {
                     Subject = new ClaimsIdentity(new Claim[]
                     {
-                        new Claim(ClaimTypes.Name, user.Id.ToString()),
+                        new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                         new Claim(ClaimTypes.Role, user.Role)
                     }),
+                    Issuer = _configuration["Jwt:Issuer"],
+                    Audience = _configuration["Jwt:Audience"],
                     Expires = DateTime.UtcNow.AddDays(7),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
                 };
@@ -71,7 +73,9 @@ namespace BloodBridge.Controllers
             return BadRequest(new { message = "Login failed" });
 
         }
-     
+
+
+       
 
 
 
