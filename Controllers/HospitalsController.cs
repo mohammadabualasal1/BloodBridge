@@ -63,7 +63,7 @@ namespace BloodBridge.Controllers
             return Ok(hospitals);
         }
         [Authorize(Roles = "Admin")]
-        [HttpPost("VerifyHospital/{id}")]
+        [HttpPut("VerifyHospital/{id}")]
         public async Task<IActionResult> VerifyHospital(long id)
         {
             var hospital = _dbContext.Hospitals.FirstOrDefault(h => h.Id == id);

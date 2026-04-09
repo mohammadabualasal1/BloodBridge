@@ -46,5 +46,32 @@ namespace BloodBridge.Controllers
             return Ok(new { message = "Blood request created successfully" });
 
         }
+        [HttpGet("bloodrequests")]
+        [Authorize(Roles = "Donor")]
+        public async Task<IActionResult> bloodrequests()
+        {
+            var userIdString = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var userId = int.Parse(userIdString);
+            var donor = await _dbContext.Donors.FirstOrDefaultAsync(d => d.UserId == userId);
+            if (donor == null) return NotFound();
+            var requests = from r in _dbContext.BloodRequests
+                           join h in _dbContext.Hospitals on r.HospitalId equals h.Id
+                           join u in _dbContext.Users on h.UserId equals u.Id
+                           where r.Status == "Pending" && h.IsVerified && donor.BloodType == r.BloodType
+                           select new
+                           {
+                               r.Id,
+                               r.BloodType,
+                               r.Quantity,
+                               r.Urgency,
+                               r.CreatedAt,
+                               HospitalName = h.HospitalName,
+                               HospitalCity = h.City,
+                               HospitalAddress = h.Address,
+                               ContactEmail = u.Email,
+                               ContactPhone = u.Phone
+                           };
+            return Ok(await requests.ToListAsync());
+        }
     }
 }
