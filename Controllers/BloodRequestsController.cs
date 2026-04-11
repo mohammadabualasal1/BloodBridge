@@ -73,9 +73,6 @@ namespace BloodBridge.Controllers
                            };
             return Ok(await requests.ToListAsync());
         }
-
-
-
         [HttpGet("MyRequests")]
         [Authorize(Roles = "Hospital")]
         public async Task<IActionResult> MyRequests()
@@ -114,5 +111,21 @@ namespace BloodBridge.Controllers
             return Ok(new { massage = "Request cancelled successfully" });
 
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 }
+
