@@ -73,5 +73,46 @@ namespace BloodBridge.Controllers
                            };
             return Ok(await requests.ToListAsync());
         }
+
+
+
+        [HttpGet("MyRequests")]
+        [Authorize(Roles = "Hospital")]
+        public async Task<IActionResult> MyRequests()
+        {
+            var userIdString = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var userId = int.Parse(userIdString);
+            var hospital = _dbContext.Hospitals.FirstOrDefault(h => h.UserId == userId);
+            if (hospital == null) { return BadRequest(); }
+            var requests = await _dbContext.BloodRequests.Where(r => r.HospitalId == hospital.Id)
+                .Select(r => new
+                {
+                    r.Id,
+                    r.BloodType,
+                    r.Quantity,
+                    r.Urgency,
+                    r.Status,
+                    r.CreatedAt
+                }).ToListAsync();
+            return Ok(requests);
+        }
+
+
+        [HttpPut("cancelRequest/{Id}")]
+        [Authorize(Roles = "Hospital")]
+        public async Task<IActionResult> CancelRequest(long Id)
+        {
+            var userIdString = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var UserId = int.Parse(userIdString);
+            var hospital = _dbContext.Hospitals.FirstOrDefault(h => h.UserId == UserId);
+            if (hospital == null) { return BadRequest(); }
+            var bloodrequest = _dbContext.BloodRequests.FirstOrDefault(b => b.Id == Id);
+            if (bloodrequests == null) { return NotFound(); }
+            if (bloodrequest.HospitalId != hospital.Id) { return Unauthorized(); }
+            bloodrequest.Status = "Cancelled";
+            await _dbContext.SaveChangesAsync();
+            return Ok(new { massage = "Request cancelled successfully" });
+
+        }
     }
 }
