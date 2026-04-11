@@ -43,7 +43,23 @@ namespace BloodBridge.Controllers
             };
             _dbContext.BloodRequests.Add(bloodRequest);
             await _dbContext.SaveChangesAsync();
+            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == hospital.UserId);
+            foreach (var donor in _dbContext.Donors.Where(d => d.BloodType == dto.BloodType && d.IsAvailable))
+            {
+                var notification = new Notifications
+                {
+                    UserId = donor.UserId,
+                    Message = $"New blood request for {dto.BloodType} blood type with quantity {dto.Quantity} and urgency {dto.Urgency} has been created.",
+                    CreatedAt = DateTime.UtcNow,
+                    IsRead = false
+
+                };
+                _dbContext.Notifications.Add(notification);
+
+            }
+            await _dbContext.SaveChangesAsync();
             return Ok(new { message = "Blood request created successfully" });
+
 
         }
         [HttpGet("bloodrequests")]
