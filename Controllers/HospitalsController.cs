@@ -24,54 +24,73 @@ namespace BloodBridge.Controllers
         public async Task<IActionResult> CompleteProfile([FromBody] HospitalDto dto)
         {
 
-            var userIdString = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var userId = int.Parse(userIdString);
-            var existing = _dbContext.Hospitals.Any(a => a.UserId == userId);
-            if (existing) { return BadRequest(); }
-
-            var hospital = new Hospitals
+            try
             {
-                UserId = userId,
-                HospitalName = dto.HospitalName,
-                City = dto.City,
-                Address = dto.Address,
-                IsVerified = false
-            };
-            _dbContext.Hospitals.Add(hospital);
-            await _dbContext.SaveChangesAsync();
-            return Ok(new { message = "Profile completed successfully" });
-        }
+                var userIdString = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                var userId = int.Parse(userIdString);
+                var existing = _dbContext.Hospitals.Any(a => a.UserId == userId);
+                if (existing) { return BadRequest(); }
 
+                var hospital = new Hospitals
+                {
+                    UserId = userId,
+                    HospitalName = dto.HospitalName,
+                    City = dto.City,
+                    Address = dto.Address,
+                    IsVerified = false
+                };
+                _dbContext.Hospitals.Add(hospital);
+                await _dbContext.SaveChangesAsync();
+                return Ok(new { message = "Profile completed successfully" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "An error occurred", error = ex.Message });
+            }
+        }
 
 
         [Authorize(Roles = "Admin")]
         [HttpGet("GetAllHospitals")]
         public IActionResult GetAllHospitals()
         {
+            try
+            {
+                var hospitals = _dbContext.Hospitals.Include(h => h.User).
+                    Select(h => new
 
-            var hospitals = _dbContext.Hospitals.Include(h => h.User).
-                Select(h => new
-
-                {
-                    h.Id,
-                    h.HospitalName,
-                    h.City,
-                    h.Address,
-                    h.IsVerified,
-                    UserEmail = h.User.Email
-                }).ToList();
-            return Ok(hospitals);
+                    {
+                        h.Id,
+                        h.HospitalName,
+                        h.City,
+                        h.Address,
+                        h.IsVerified,
+                        UserEmail = h.User.Email
+                    }).ToList();
+                return Ok(hospitals);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "An error occurred", error = ex.Message });
+            }
         }
         [Authorize(Roles = "Admin")]
         [HttpPut("VerifyHospital/{id}")]
         public async Task<IActionResult> VerifyHospital(long id)
         {
-            var hospital = _dbContext.Hospitals.FirstOrDefault(h => h.Id == id);
-            if (hospital == null) { return NotFound(); }
-            hospital.IsVerified = true;
-            await _dbContext.SaveChangesAsync();
-            return Ok(new { message = "Hospital verified successfully" });
-            
+            try
+            {
+                var hospital = _dbContext.Hospitals.FirstOrDefault(h => h.Id == id);
+                if (hospital == null) { return NotFound(); }
+                hospital.IsVerified = true;
+                await _dbContext.SaveChangesAsync();
+                return Ok(new { message = "Hospital verified successfully" });
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "An error occurred", error = ex.Message });
+            }
         }
-    }
+        }
 }

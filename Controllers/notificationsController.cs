@@ -22,33 +22,47 @@ namespace BloodBridge.Controllers
         [HttpGet("GetNotifications")]
         public async Task<IActionResult> GetNotifications()
         {
-            var userIdString = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var userId = int.Parse(userIdString);
-            var notifications =await _dbContext.Notifications.Where(n => n.UserId == userId)
-                .OrderByDescending(n => n.CreatedAt)
-                .Select(n => new
-                {
-                    n.Id,
-                    n.Message,
-                    n.CreatedAt,
-                    n.IsRead
-                }).ToListAsync();
-            return Ok(notifications);
+            try
+            {
+                var userIdString = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                var userId = int.Parse(userIdString);
+                var notifications = await _dbContext.Notifications.Where(n => n.UserId == userId)
+                    .OrderByDescending(n => n.CreatedAt)
+                    .Select(n => new
+                    {
+                        n.Id,
+                        n.Message,
+                        n.CreatedAt,
+                        n.IsRead
+                    }).ToListAsync();
+                return Ok(notifications);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "An error occurred", error = ex.Message });
+            }
         }
         [Authorize]
         [HttpPut("MarkAsRead/{id}")]
         public async Task<IActionResult> MarkAsRead(int id)
         {
-            var userIdString = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var userId = int.Parse(userIdString);
-            var notification = await _dbContext.Notifications.FirstOrDefaultAsync(n => n.Id == id && n.UserId == userId);
-            if (notification == null) return NotFound();
-            notification.IsRead = true;
-            await _dbContext.SaveChangesAsync();
-            return Ok(new { message = "Notification marked as read" });
+            try
+            {
+                var userIdString = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                var userId = int.Parse(userIdString);
+                var notification = await _dbContext.Notifications.FirstOrDefaultAsync(n => n.Id == id && n.UserId == userId);
+                if (notification == null) return NotFound();
+                notification.IsRead = true;
+                await _dbContext.SaveChangesAsync();
+                return Ok(new { message = "Notification marked as read" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "An error occurred", error = ex.Message });
+            }
         }
 
 
 
-    }
+        }
 }
