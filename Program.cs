@@ -11,6 +11,15 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAngular", policy =>
+    {
+        policy.WithOrigins("http://localhost:4200")
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
 builder.Services.AddDbContext<BloodBridgeDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("BloodBridgeDbContext")));
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -47,7 +56,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
-
+app.UseCors("AllowAngular");
 app.MapControllers();
 
 app.Run();

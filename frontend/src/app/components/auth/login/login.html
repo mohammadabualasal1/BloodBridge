@@ -1,0 +1,87 @@
+<div class="bb-wrap">
+
+  <!-- Left Side -->
+  <div class="bb-left">
+    <div class="bb-logo-icon">
+      <svg viewBox="0 0 38 38" fill="none">
+        <path d="M19 4C19 4 8 14 8 21.5C8 27.3 13 32 19 32C25 32 30 27.3 30 21.5C30 14 19 4Z" fill="#c0161e"/>
+        <path d="M19 12C19 12 13 18 13 22C13 25.3 15.7 28 19 28C22.3 28 25 25.3 25 22C25 18 19 12 19 12Z" fill="white" opacity="0.4"/>
+        <path d="M16 22H22M19 19V25" stroke="white" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="bb-brand">BloodBridge</div>
+    <div class="bb-tagline">منصة التبرع بالدم — نربط المتبرعين بالمستشفيات في وقت الحاجة</div>
+    <div class="bb-stats">
+      <div class="bb-stat">
+        <div class="bb-stat-num">1.2K</div>
+        <div class="bb-stat-label">متبرع</div>
+      </div>
+      <div class="bb-divider-v"></div>
+      <div class="bb-stat">
+        <div class="bb-stat-num">48</div>
+        <div class="bb-stat-label">مستشفى</div>
+      </div>
+      <div class="bb-divider-v"></div>
+      <div class="bb-stat">
+        <div class="bb-stat-num">320</div>
+        <div class="bb-stat-label">طلب منقذ</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Side -->
+  <div class="bb-right">
+    <div class="bb-card">
+      <div class="bb-card-title">مرحباً بك</div>
+      <div class="bb-card-sub">سجّل دخولك للمتابعة</div>
+
+      <!-- Role Badges -->
+      <div class="bb-roles">
+        
+      </div>
+
+      <!-- Email -->
+      <label class="bb-label">البريد الإلكتروني</label>
+      <div class="bb-input-wrap">
+        <div class="bb-input-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="4" width="20" height="16" rx="3"/>
+            <path d="M2 8l10 7 10-7"/>
+          </svg>
+        </div>
+            <input class="bb-input" type="email" [(ngModel)]="email" placeholder="example@email.com" />
+      </div>
+
+      <!-- Password -->
+      <label class="bb-label">كلمة المرور</label>
+      <div class="bb-input-wrap">
+        <div class="bb-input-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="11" width="18" height="11" rx="2"/>
+            <path d="M7 11V7a5 5 0 0110 0v4"/>
+          </svg>
+        </div>
+         <input class="bb-input" [type]="showPassword ? 'text' : 'password'" [(ngModel)]="password" placeholder="••••••••" />
+        <div class="bb-eye" (click)="togglePassword()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Error Message -->
+      <div class="bb-error" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+      <!-- Submit Button -->
+      <button class="bb-btn" (click)="onSubmit()" [disabled]="isLoading">
+        <span *ngIf="!isLoading">تسجيل الدخول</span>
+        <span *ngIf="isLoading">جاري التحميل...</span>
+      </button>
+
+      <div class="bb-forgot"><a routerLink="/forgot-password">نسيت كلمة المرور؟</a></div>
+      <div class="bb-register">ما عندك حساب؟ <a routerLink="/register">سجّل الآن</a></div>
+    </div>
+  </div>
+
+</div>

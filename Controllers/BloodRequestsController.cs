@@ -18,10 +18,12 @@ namespace BloodBridge.Controllers
         {
             _dbContext = dbContext;
         }
+
         [HttpPost("CreateRequest")]
         [Authorize(Roles = "Hospital")]
         public async Task<IActionResult> CreateRequest([FromBody] BloodRequestDto dto)
         {
+       
             var userIdString=User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var userId = int.Parse(userIdString);
             var hospital = _dbContext.Hospitals.FirstOrDefault(h => h.UserId == userId);
@@ -60,7 +62,7 @@ namespace BloodBridge.Controllers
             await _dbContext.SaveChangesAsync();
             return Ok(new { message = "Blood request created successfully" });
 
-
+            
         }
         [HttpGet("bloodrequests")]
         [Authorize(Roles = "Donor")]
