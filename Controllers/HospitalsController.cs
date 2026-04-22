@@ -20,20 +20,16 @@ namespace BloodBridge.Controllers
         }
 
         [HttpPost("complete-profile")]
-        [Authorize(Roles = "Hospital")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CompleteProfile([FromBody] HospitalDto dto)
         {
-
             try
             {
-                var userIdString = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-                var userId = int.Parse(userIdString);
-                var existing = _dbContext.Hospitals.Any(a => a.UserId == userId);
+                var existing = _dbContext.Hospitals.Any(a => a.UserId == dto.UserId);
                 if (existing) { return BadRequest(); }
-
                 var hospital = new Hospitals
                 {
-                    UserId = userId,
+                    UserId = dto.UserId, 
                     HospitalName = dto.HospitalName,
                     City = dto.City,
                     Address = dto.Address,

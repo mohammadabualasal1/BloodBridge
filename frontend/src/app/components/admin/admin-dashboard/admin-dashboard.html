@@ -1,1 +1,133 @@
-<p>admin-dashboard works!</p>
+<!-- Navbar -->
+<div class="navbar">
+  <div class="nav-brand">
+    <svg viewBox="0 0 38 38" fill="none">
+      <path d="M19 4C19 4 8 14 8 21.5C8 27.3 13 32 19 32C25 32 30 27.3 30 21.5C30 14 19 4Z" fill="#c0161e"/>
+      <path d="M16 22H22M19 19V25" stroke="white" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+    BloodBridge
+  </div>
+  <div class="nav-right">
+    <span class="nav-name">المدير</span>
+    <div class="nav-avatar">م</div>
+    <div class="nav-logout" (click)="logout()">خروج</div>
+  </div>
+</div>
+
+<!-- Body -->
+<div class="body">
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-item active">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+        <rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
+      </svg>
+      لوحة التحكم
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="content">
+
+    <!-- Stats -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">إجمالي المستشفيات</div>
+        <div class="stat-num">{{ hospitals.length }}</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">مستشفيات موثقة</div>
+        <div class="stat-num green">{{ verifiedCount }}</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">بانتظار التوثيق</div>
+        <div class="stat-num red">{{ unverifiedCount }}</div>
+      </div>
+    </div>
+
+    <div class="content-grid">
+
+      <!-- Table -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">قائمة المستشفيات</div>
+          <div class="card-sub">{{ hospitals.length }} مستشفى</div>
+        </div>
+
+        <div class="empty-state" *ngIf="isLoading">جاري التحميل...</div>
+        <div class="empty-state" *ngIf="!isLoading && hospitals.length === 0">لا يوجد مستشفيات بعد</div>
+
+        <table *ngIf="!isLoading && hospitals.length > 0">
+          <thead>
+            <tr>
+              <th>اسم المستشفى</th>
+              <th>المدينة</th>
+              <th>البريد</th>
+              <th>الحالة</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let h of hospitals">
+              <td>{{ h.hospitalName }}</td>
+              <td>{{ h.city }}</td>
+              <td>{{ h.userEmail }}</td>
+              <td>
+                <span [class]="h.isVerified ? 'badge badge-verified' : 'badge badge-unverified'">
+                  {{ h.isVerified ? 'موثق' : 'غير موثق' }}
+                </span>
+              </td>
+              <td>
+                <button class="btn-verify" *ngIf="!h.isVerified" (click)="verifyHospital(h.id)">توثيق</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Form -->
+      <div class="form-card">
+        <div class="form-title">إضافة مستشفى جديد</div>
+
+        <div class="form-group">
+          <label class="form-label">اسم المستشفى</label>
+          <input class="form-input" type="text" placeholder="مستشفى الأمل" [(ngModel)]="newHospital.name" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">البريد الإلكتروني</label>
+          <input class="form-input" type="email" placeholder="hospital@example.com" [(ngModel)]="newHospital.email" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">كلمة المرور</label>
+          <input class="form-input" type="password" placeholder="••••••••" [(ngModel)]="newHospital.password" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">رقم الهاتف</label>
+          <input class="form-input" type="tel" placeholder="+962 79 000 0000" [(ngModel)]="newHospital.phone" />
+        </div>
+
+        <hr class="form-divider">
+
+        <div class="form-group">
+          <label class="form-label">المدينة</label>
+          <input class="form-input" type="text" placeholder="عمّان" [(ngModel)]="newHospital.city" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">العنوان</label>
+          <input class="form-input" type="text" placeholder="شارع الملك عبدالله" [(ngModel)]="newHospital.address" />
+        </div>
+
+        <div class="form-error" *ngIf="formError">{{ formError }}</div>
+        <div class="form-success" *ngIf="formSuccess">{{ formSuccess }}</div>
+
+        <button class="btn-submit" (click)="addHospital()" [disabled]="isSubmitting">
+          <span *ngIf="!isSubmitting">إضافة المستشفى</span>
+          <span *ngIf="isSubmitting">جاري الإضافة...</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -5,6 +5,7 @@
         public string ?HospitalName { get; set; }
         public string ?City { get; set; }
         public string? Address { get; set; }
+        public long ? UserId { get; set; }
 
     }
 }

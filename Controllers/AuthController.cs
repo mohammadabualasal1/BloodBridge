@@ -40,7 +40,7 @@ namespace BloodBridge.Controllers
             };
             _dbcontext.Users.Add(user);
           await _dbcontext.SaveChangesAsync();
-            return Ok(new { message = "User registered successfully" });
+            return Ok(new { message = "User registered successfully", userId = user.Id });
         }
 
         [HttpPost("Login")]
