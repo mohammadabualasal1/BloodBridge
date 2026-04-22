@@ -100,7 +100,43 @@ namespace BloodBridge.Controllers
                 return StatusCode(500, new { message = "An error occurred", error = ex.Message });
             }
         }
-            [HttpPost("CreateDonation")]
+        [HttpGet("HospitalDonations")]
+        [Authorize(Roles = "Hospital")]
+        public async Task<IActionResult> GetHospitalDonations()
+        {
+            try
+            {
+                var userIdString = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                var userId = int.Parse(userIdString);
+                var hospital = await _dbContext.Hospitals.FirstOrDefaultAsync(h => h.UserId == userId);
+                if (hospital == null) return BadRequest();
+
+                var donations = await _dbContext.Donations
+                    .Include(d => d.Donor)
+                    .ThenInclude(d => d.User)
+                    .Where(d => _dbContext.BloodRequests
+                        .Any(r => r.Id == d.RequestId && r.HospitalId == hospital.Id))
+                    .Select(d => new
+                    {
+                        d.Id,
+                        d.Status,
+                        d.DonationDate,
+                        d.Notes,
+                        DonorName = d.Donor.User.Name,
+                        DonorBloodType = d.Donor.BloodType,
+                        DonorCity = d.Donor.City,
+                        d.RequestId
+                    })
+                    .ToListAsync();
+
+                return Ok(donations);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "An error occurred", error = ex.Message });
+            }
+        }
+        [HttpPost("CreateDonation")]
         [Authorize(Roles = "Donor")]
         public async Task<IActionResult> CreateDonation([FromBody] DonationDto dto)
         {
@@ -139,7 +175,7 @@ namespace BloodBridge.Controllers
             }
         }
 
-            [Authorize(Roles = "Hospital")]
+        [Authorize(Roles = "Hospital")]
         [HttpPut("{id}/confirm")]
         public async Task<IActionResult> ConfirmDonation(long id)
         {
@@ -147,10 +183,25 @@ namespace BloodBridge.Controllers
             {
                 var donation = await _dbContext.Donations.FirstOrDefaultAsync(d => d.Id == id);
                 if (donation == null) return NotFound("Donation not found");
-
                 if (donation.Status != "Pending") return BadRequest("Donation is not pending");
 
+           
                 donation.Status = "Confirmed";
+
+                var bloodRequest = await _dbContext.BloodRequests.FirstOrDefaultAsync(r => r.Id == donation.RequestId);
+                if (bloodRequest != null)
+                {
+                    bloodRequest.Quantity -= 1;
+                    if (bloodRequest.Quantity <= 0)
+                        bloodRequest.Status = "Fulfilled";
+                }
+
+                var donor = await _dbContext.Donors.FirstOrDefaultAsync(d => d.Id == donation.DonorId);
+                if (donor != null)
+                {
+                    donor.LastDonation = DateTime.UtcNow;
+                    donor.IsAvailable = false;
+                }
 
                 await _dbContext.SaveChangesAsync();
                 return Ok(new { message = "Donation confirmed successfully" });
@@ -161,7 +212,7 @@ namespace BloodBridge.Controllers
             }
         }
 
-            [Authorize(Roles = "Hospital")]
+        [Authorize(Roles = "Hospital")]
         [HttpPut("{id}/reject")]
         public async Task<IActionResult> RejectDonation(long id)
         {

@@ -1,1 +1,61 @@
-<p>complete-profile works!</p>
+<!-- Navbar -->
+<div class="navbar">
+  <div class="nav-brand">
+    <svg viewBox="0 0 38 38" fill="none">
+      <path d="M19 4C19 4 8 14 8 21.5C8 27.3 13 32 19 32C25 32 30 27.3 30 21.5C30 14 19 4Z" fill="#c0161e"/>
+      <path d="M16 22H22M19 19V25" stroke="white" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+    BloodBridge
+  </div>
+</div>
+
+<!-- Page -->
+<div class="page-wrap">
+  <div class="card">
+
+    <div class="card-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#c0161e" stroke-width="2">
+        <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
+    </div>
+    <div class="card-title">أكمل ملفك الشخصي</div>
+    <div class="card-sub">أدخل بياناتك عشان نقدر نوصلك بطلبات الدم المناسبة لفصيلتك</div>
+
+    <!-- Blood Type -->
+    <div class="form-group">
+      <label class="form-label">فصيلة الدم</label>
+      <div class="blood-grid">
+        <button class="blood-btn" *ngFor="let type of bloodTypes"
+          [class.active]="selectedBloodType === type"
+          (click)="selectBloodType(type)">
+          {{ type }}
+        </button>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- City -->
+    <div class="form-group">
+      <label class="form-label">المدينة</label>
+      <input class="form-input" type="text" placeholder="مثال: عمّان" [(ngModel)]="city" />
+    </div>
+
+    <!-- Last Donation -->
+    <div class="form-group">
+      <label class="form-label">آخر تبرع بالدم <span class="optional">(اختياري)</span></label>
+      <input class="form-input" type="date" [(ngModel)]="lastDonation" />
+      <div class="form-hint">إذا ما تبرعت قبل، اتركها فاضية — سيتم تفعيل حسابك تلقائياً</div>
+    </div>
+
+    <!-- Error -->
+    <div class="form-error" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+    <button class="btn-submit" (click)="onSubmit()" [disabled]="isLoading">
+      <span *ngIf="!isLoading">حفظ وإكمال</span>
+      <span *ngIf="isLoading">جاري الحفظ...</span>
+    </button>
+
+  </div>
+</div>

@@ -1,0 +1,93 @@
+<!-- Navbar -->
+<div class="navbar">
+  <div class="nav-brand">
+    <svg viewBox="0 0 38 38" fill="none">
+      <path d="M19 4C19 4 8 14 8 21.5C8 27.3 13 32 19 32C25 32 30 27.3 30 21.5C30 14 19 4Z" fill="#c0161e"/>
+      <path d="M16 22H22M19 19V25" stroke="white" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+    BloodBridge
+  </div>
+  <div class="nav-right">
+    <span class="nav-name">{{ hospitalName }}</span>
+    <div class="nav-avatar">{{ hospitalName?.charAt(0) }}</div>
+    <div class="nav-logout" (click)="logout()">خروج</div>
+  </div>
+</div>
+
+<!-- Body -->
+<div class="body">
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-item" (click)="goTo('/hospital')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+        <rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
+      </svg>
+      الرئيسية
+    </div>
+    <div class="sidebar-item" (click)="goTo('/hospital/blood-request-list')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+        <polyline points="14 2 14 8 20 8"/>
+        <line x1="8" y1="13" x2="16" y2="13"/>
+        <line x1="8" y1="17" x2="16" y2="17"/>
+      </svg>
+      طلبات الدم
+    </div>
+    <div class="sidebar-item active" (click)="goTo('/hospital/donations')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
+      </svg>
+      التبرعات
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="content">
+    <div class="page-header">
+      <div class="page-title">التبرعات الواردة</div>
+      <div class="page-sub">تأكيد أو رفض طلبات التبرع</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">قائمة التبرعات</div>
+        <div class="card-sub">{{ donations.length }} تبرع</div>
+      </div>
+
+      <div class="empty-state" *ngIf="isLoading">جاري التحميل...</div>
+      <div class="empty-state" *ngIf="!isLoading && donations.length === 0">لا يوجد تبرعات بعد</div>
+
+      <table *ngIf="!isLoading && donations.length > 0">
+        <thead>
+          <tr>
+            <th>المتبرع</th>
+            <th>فصيلة الدم</th>
+            <th>المدينة</th>
+            <th>رقم الطلب</th>
+            <th>التاريخ</th>
+            <th>الحالة</th>
+            <th>الإجراء</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let don of donations">
+            <td>{{ don.donorName }}</td>
+            <td><strong>{{ don.donorBloodType }}</strong></td>
+            <td>{{ don.donorCity }}</td>
+            <td>#{{ don.requestId }}</td>
+            <td>{{ don.donationDate | date: 'yyyy-MM-dd' }}</td>
+            <td><span [class]="getBadgeClass(don.status)">{{ getStatusLabel(don.status) }}</span></td>
+            <td>
+              <ng-container *ngIf="don.status === 'Pending'">
+                <button class="btn-confirm" (click)="confirm(don.id)">تأكيد</button>
+                <button class="btn-reject" (click)="reject(don.id)">رفض</button>
+              </ng-container>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

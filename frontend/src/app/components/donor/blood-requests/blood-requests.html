@@ -1,1 +1,100 @@
-<p>blood-requests works!</p>
+<!-- Navbar -->
+<div class="navbar">
+  <div class="nav-brand">
+    <svg viewBox="0 0 38 38" fill="none">
+      <path d="M19 4C19 4 8 14 8 21.5C8 27.3 13 32 19 32C25 32 30 27.3 30 21.5C30 14 19 4Z" fill="#c0161e"/>
+      <path d="M16 22H22M19 19V25" stroke="white" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+    BloodBridge
+  </div>
+  <div class="nav-right">
+    <span class="nav-name">{{ donorName }}</span>
+    <div class="nav-avatar">{{ donorName?.charAt(0) }}</div>
+    <div class="nav-logout" (click)="logout()">خروج</div>
+  </div>
+</div>
+
+<!-- Body -->
+<div class="body">
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-item" (click)="goTo('/donor')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+        <rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
+      </svg>
+      الرئيسية
+    </div>
+    <div class="sidebar-item active" (click)="goTo('/donor/blood-requests')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
+      </svg>
+      طلبات الدم
+    </div>
+    <div class="sidebar-item" (click)="goTo('/donor/donation-history')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+        <polyline points="14 2 14 8 20 8"/>
+        <line x1="8" y1="13" x2="16" y2="13"/>
+        <line x1="8" y1="17" x2="16" y2="17"/>
+      </svg>
+      سجل التبرعات
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="content">
+
+    <div class="page-header">
+      <div class="page-title">طلبات الدم المتاحة</div>
+      <div class="page-sub">الطلبات المناسبة لفصيلة دمك</div>
+    </div>
+
+    <!-- Loading -->
+    <div class="empty-state" *ngIf="isLoading">جاري التحميل...</div>
+
+    <!-- Empty -->
+    <div class="empty-state" *ngIf="!isLoading && requests.length === 0">
+      لا يوجد طلبات متاحة لفصيلة دمك حالياً
+    </div>
+
+    <!-- Cards -->
+    <div class="requests-grid" *ngIf="!isLoading && requests.length > 0">
+      <div class="request-card" *ngFor="let req of requests">
+        <div class="req-header">
+          <div class="blood-badge">{{ req.bloodType }}</div>
+          <span [class]="getUrgencyClass(req.urgency)">{{ req.urgency }}</span>
+        </div>
+        <div class="req-info">
+          <div class="req-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+            </svg>
+            <span>{{ req.hospitalName }}</span>
+          </div>
+          <div class="req-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
+            <span>{{ req.hospitalCity }}</span>
+          </div>
+          <div class="req-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1"/>
+            </svg>
+            <span>الكمية: <strong>{{ req.quantity }} وحدات</strong></span>
+          </div>
+        </div>
+        <div class="req-footer">
+          <span class="req-date">{{ req.createdAt | date: 'yyyy-MM-dd' }}</span>
+          <button class="btn-donate" (click)="donate(req.id)" [disabled]="isDonating">
+            تبرع الآن
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

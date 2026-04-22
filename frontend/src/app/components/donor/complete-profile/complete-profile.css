@@ -1,0 +1,194 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:host {
+  display: flex;
+  flex-direction: column;
+  font-family: 'Cairo', sans-serif;
+  direction: rtl;
+  background: #f8f4f4;
+  min-height: 100vh;
+}
+
+/* ===== NAVBAR ===== */
+.navbar {
+  background: white;
+  padding: 0 1.5rem;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #f0e0e0;
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #c0161e;
+}
+
+.nav-brand svg { width: 26px; height: 26px; }
+
+/* ===== PAGE ===== */
+.page-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+/* ===== CARD ===== */
+.card {
+  background: white;
+  border-radius: 20px;
+  padding: 2.5rem 2rem;
+  width: 100%;
+  max-width: 480px;
+  box-shadow: 0 4px 32px rgba(192, 22, 30, 0.08);
+  border: 1px solid #f0e0e0;
+}
+
+.card-icon {
+  width: 56px;
+  height: 56px;
+  background: #fff0f0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+}
+
+.card-icon svg { width: 28px; height: 28px; }
+
+.card-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 0.25rem;
+}
+
+.card-sub {
+  font-size: 0.88rem;
+  color: #888;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+/* ===== FORM ===== */
+.form-group { margin-bottom: 1.25rem; }
+
+.form-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #444;
+  margin-bottom: 0.4rem;
+  display: block;
+}
+
+.optional {
+  color: #aaa;
+  font-weight: 400;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1.5px solid #e8d0d0;
+  border-radius: 10px;
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.92rem;
+  color: #1a1a1a;
+  background: #fdfafa;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.form-input:focus {
+  border-color: #c0161e;
+  background: white;
+}
+
+.form-hint {
+  font-size: 0.75rem;
+  color: #aaa;
+  margin-top: 0.35rem;
+}
+
+/* ===== BLOOD TYPE GRID ===== */
+.blood-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+}
+
+.blood-btn {
+  padding: 0.6rem;
+  border: 1.5px solid #e8d0d0;
+  border-radius: 8px;
+  background: #fdfafa;
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #888;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.2s;
+}
+
+.blood-btn:hover {
+  border-color: #c0161e;
+  color: #c0161e;
+}
+
+.blood-btn.active {
+  border-color: #c0161e;
+  background: #fff0f0;
+  color: #c0161e;
+}
+
+/* ===== DIVIDER ===== */
+.divider {
+  border: none;
+  border-top: 1px solid #f5eded;
+  margin: 1.5rem 0;
+}
+
+/* ===== ERROR ===== */
+.form-error {
+  background: #fff0f0;
+  border: 1px solid #f5c0c0;
+  color: #c0161e;
+  border-radius: 8px;
+  padding: 0.6rem 1rem;
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+/* ===== BUTTON ===== */
+.btn-submit {
+  width: 100%;
+  padding: 0.85rem;
+  background: #c0161e;
+  color: white;
+  font-family: 'Cairo', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  transition: background 0.2s;
+}
+
+.btn-submit:hover { background: #a01018; }
+.btn-submit:disabled { background: #e8a0a4; cursor: not-allowed; }

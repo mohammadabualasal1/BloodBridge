@@ -1,1 +1,103 @@
-<p>donor-dashboard works!</p>
+<!-- Navbar -->
+<div class="navbar">
+  <div class="nav-brand">
+    <svg viewBox="0 0 38 38" fill="none">
+      <path d="M19 4C19 4 8 14 8 21.5C8 27.3 13 32 19 32C25 32 30 27.3 30 21.5C30 14 19 4Z" fill="#c0161e"/>
+      <path d="M16 22H22M19 19V25" stroke="white" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+    BloodBridge
+  </div>
+  <div class="nav-right">
+    <span class="nav-name">{{ donorName }}</span>
+    <div class="nav-avatar">{{ donorName?.charAt(0) }}</div>
+    <div class="nav-logout" (click)="logout()">خروج</div>
+  </div>
+</div>
+
+<!-- Body -->
+<div class="body">
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-item active" routerLink="/donor">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+        <rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
+      </svg>
+      الرئيسية
+    </div>
+    <div class="sidebar-item" (click)="goTo('/donor/blood-requests')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
+      </svg>
+      طلبات الدم
+    </div>
+    <div class="sidebar-item" (click)="goTo('/donor/donation-history')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+        <polyline points="14 2 14 8 20 8"/>
+        <line x1="8" y1="13" x2="16" y2="13"/>
+        <line x1="8" y1="17" x2="16" y2="17"/>
+      </svg>
+      سجل التبرعات
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="content">
+
+    <!-- Welcome Card -->
+    <div class="welcome-card">
+      <div class="welcome-text">
+        <h2>أهلاً {{ donorName }}! 👋</h2>
+        <p>شكراً لك على تبرعك — أنت تنقذ أرواحاً</p>
+      </div>
+      <div class="welcome-badge">
+        <div class="badge-blood">{{ profile?.bloodType }}</div>
+        <div class="badge-label">فصيلة دمك</div>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">إجمالي تبرعاتي</div>
+        <div class="stat-num red">{{ totalDonations }}</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">طلبات متاحة لي</div>
+        <div class="stat-num">{{ availableRequests }}</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">آخر تبرع</div>
+        <div class="stat-num green" style="font-size:1rem;">
+          {{ profile?.lastDonation ? (profile.lastDonation | date: 'yyyy-MM-dd') : 'لا يوجد' }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Info Card -->
+    <div class="info-card">
+      <div class="info-title">معلوماتي</div>
+      <div class="info-row">
+        <span class="info-key">المدينة</span>
+        <span class="info-val">{{ profile?.city }}</span>
+      </div>
+      <div class="info-row">
+        <span class="info-key">فصيلة الدم</span>
+        <span class="info-val">{{ profile?.bloodType }}</span>
+      </div>
+      <div class="info-row">
+        <span class="info-key">آخر تبرع</span>
+        <span class="info-val">{{ profile?.lastDonation ? (profile.lastDonation | date: 'yyyy-MM-dd') : 'لا يوجد' }}</span>
+      </div>
+      <div class="info-row">
+        <span class="info-key">الحالة</span>
+        <span [class]="profile?.isAvailable ? 'status-available' : 'status-unavailable'">
+          {{ profile?.isAvailable ? 'متاح للتبرع ✓' : 'غير متاح حالياً' }}
+        </span>
+      </div>
+    </div>
+
+  </div>
+</div>

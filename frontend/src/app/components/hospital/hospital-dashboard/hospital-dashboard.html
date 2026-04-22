@@ -1,1 +1,144 @@
-<p>hospital-dashboard works!</p>
+<!-- Navbar -->
+<div class="navbar">
+  <div class="nav-brand">
+    <svg viewBox="0 0 38 38" fill="none">
+      <path d="M19 4C19 4 8 14 8 21.5C8 27.3 13 32 19 32C25 32 30 27.3 30 21.5C30 14 19 4Z" fill="#c0161e"/>
+      <path d="M16 22H22M19 19V25" stroke="white" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+    BloodBridge
+  </div>
+  <div class="nav-right">
+    <div class="nav-hospital-name">{{ hospitalName }}</div>
+    <div class="nav-avatar">{{ hospitalName?.charAt(0) }}</div>
+    <div class="nav-logout" (click)="logout()">خروج</div>
+  </div>
+</div>
+
+<!-- Body -->
+<div class="body">
+
+   <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-item active" (click)="goTo('/hospital')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+        <rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
+      </svg>
+      الرئيسية
+    </div>
+    <div class="sidebar-item" (click)="goTo('/hospital/blood-request-list')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+        <polyline points="14 2 14 8 20 8"/>
+        <line x1="8" y1="13" x2="16" y2="13"/>
+        <line x1="8" y1="17" x2="16" y2="17"/>
+      </svg>
+      طلبات الدم
+    </div>
+    <div class="sidebar-item " (click)="goTo('/hospital/donations')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
+      </svg>
+      التبرعات
+    </div>
+  </div>
+
+
+  <!-- Content -->
+  <div class="content">
+
+    <!-- Stats -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">إجمالي الطلبات</div>
+        <div class="stat-num">{{ totalRequests }}</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">طلبات معلقة</div>
+        <div class="stat-num red">{{ pendingRequests }}</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">طلبات مكتملة</div>
+        <div class="stat-num green">{{ fulfilledRequests }}</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">طلبات ملغية</div>
+        <div class="stat-num orange">{{ cancelledRequests }}</div>
+      </div>
+    </div>
+
+    <!-- Content Grid -->
+    <div class="content-grid">
+
+      <!-- Table -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">طلبات آخر أسبوع</div>
+          <div class="card-sub">آخر 7 أيام</div>
+        </div>
+        <div class="card-body">
+          <div class="empty-state" *ngIf="isLoading">جاري التحميل...</div>
+          <div class="empty-state" *ngIf="!isLoading && recentRequests.length === 0">لا يوجد طلبات في آخر أسبوع</div>
+          <table *ngIf="!isLoading && recentRequests.length > 0">
+            <thead>
+              <tr>
+                <th>فصيلة الدم</th>
+                <th>الكمية</th>
+                <th>الأولوية</th>
+                <th>الحالة</th>
+                <th>التاريخ</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let req of recentRequests">
+                <td><strong>{{ req.bloodType }}</strong></td>
+                <td>{{ req.quantity }} وحدات</td>
+                <td><span [class]="getUrgencyClass(req.urgency)">{{ req.urgency }}</span></td>
+                <td><span [class]="getBadgeClass(req.status)">{{ req.status }}</span></td>
+                <td>{{ req.createdAt | date: 'yyyy-MM-dd' }}</td>
+                <td>
+                  <button class="btn-cancel" *ngIf="req.status === 'Pending'" (click)="cancelRequest(req.id)">إلغاء</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Form -->
+      <div class="form-card">
+        <div class="form-title">طلب دم جديد</div>
+        <div class="form-group">
+          <label class="form-label">فصيلة الدم</label>
+          <select class="form-select" [(ngModel)]="newRequest.bloodType">
+            <option value="">اختر فصيلة الدم</option>
+            <option>A+</option><option>A-</option>
+            <option>B+</option><option>B-</option>
+            <option>AB+</option><option>AB-</option>
+            <option>O+</option><option>O-</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">الكمية (وحدات)</label>
+          <input class="form-input" type="number" min="1" placeholder="مثال: 3" [(ngModel)]="newRequest.quantity" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">الأولوية</label>
+          <select class="form-select" [(ngModel)]="newRequest.urgency">
+            <option value="">اختر الأولوية</option>
+            <option>High</option>
+            <option>Medium</option>
+            <option>Low</option>
+          </select>
+        </div>
+        <div class="form-error" *ngIf="formError">{{ formError }}</div>
+        <button class="btn-submit" (click)="createRequest()" [disabled]="isSubmitting">
+          <span *ngIf="!isSubmitting">إرسال الطلب</span>
+          <span *ngIf="isSubmitting">جاري الإرسال...</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
