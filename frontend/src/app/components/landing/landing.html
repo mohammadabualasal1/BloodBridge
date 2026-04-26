@@ -1,0 +1,201 @@
+<!-- Navbar -->
+<nav class="navbar">
+  <div class="nav-brand">
+    <svg viewBox="0 0 38 38" fill="none">
+      <path d="M19 4C19 4 8 14 8 21.5C8 27.3 13 32 19 32C25 32 30 27.3 30 21.5C30 14 19 4Z" fill="#c0161e"/>
+      <path d="M16 22H22M19 19V25" stroke="white" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+    Blood<span>Bridge</span>
+  </div>
+  <div class="nav-links">
+    <a class="nav-link" routerLink="/login">تسجيل الدخول</a>
+    <button class="nav-btn" routerLink="/register">ابدأ الآن</button>
+  </div>
+</nav>
+
+<!-- Splash -->
+<div class="splash">
+  <div class="bg-grid"></div>
+  <div class="bg-glow-1"></div>
+  <div class="bg-glow-2"></div>
+
+  <div class="content">
+    <div class="logo-outer">
+      <div class="logo-inner">
+        <svg viewBox="0 0 48 48" fill="none">
+          <path d="M24 4C24 4 10 17 10 26C10 33.7 16.3 40 24 40C31.7 40 38 33.7 38 26C38 17 24 4Z" fill="white"/>
+          <path d="M24 14C24 14 17 21 17 26C17 30.4 20.1 34 24 34C27.9 34 31 30.4 31 26C31 21 24 14Z" fill="rgba(192,22,30,0.35)"/>
+          <path d="M21 26H27M24 23V29" stroke="rgba(139,0,0,0.7)" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </div>
+
+    <div class="brand">
+      <div class="brand-name">Blood<span class="accent">Bridge</span></div>
+      <div class="brand-sub">ننقذ الأرواح · كل قطرة تحسب</div>
+    </div>
+
+    <div class="line">
+      <div class="line-seg"></div>
+      <div class="line-dot"></div>
+      <div class="line-seg"></div>
+    </div>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-num"><sup>+</sup>3</div>
+        <div class="stat-label">أرواح لكل تبرع</div>
+      </div>
+      <div class="stat-sep"></div>
+      <div class="stat">
+        <div class="stat-num"><sup>+</sup>118</div>
+        <div class="stat-label">مليون تبرع سنوياً عالمياً</div>
+      </div>
+      <div class="stat-sep"></div>
+      <div class="stat">
+        <div class="stat-num">2</div>
+        <div class="stat-label">ثانية حاجة للدم كل</div>
+      </div>
+    </div>
+
+    <div class="loader">
+      <div class="loader-track">
+        <div class="loader-fill"></div>
+      </div>
+      <div class="loader-label">
+        <span class="loader-text">جاري التحميل</span>
+        <span class="loader-pct">{{ pct }}%</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Facts Section -->
+<div class="facts-section">
+  <div class="facts-container">
+
+    <div class="facts-header">
+      <div class="facts-tag">لماذا يهم؟</div>
+      <div class="facts-title">كل قطرة دم<br><span>تحمل قصة أمل</span></div>
+      <div class="facts-desc">لا يمكن تصنيع الدم — لا يأتي إلا من متبرعين طوعيين. تبرع واحد يمكنه إنقاذ ما يصل إلى 3 أرواح، والحاجة لا تتوقف أبداً.</div>
+      <div class="facts-source">المصادر: منظمة الصحة العالمية، الصليب الأحمر الأمريكي، المعاهد الوطنية للصحة</div>
+    </div>
+
+    <!-- Big Numbers -->
+    <div class="big-facts">
+      <div class="big-fact">
+        <div class="big-fact-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2C12 2 5 9 5 14a7 7 0 0014 0C19 9 12 2 12 2z"/></svg>
+        </div>
+        <div class="big-fact-num">3<span>+</span></div>
+        <div class="big-fact-label">أرواح تُنقذ من<br>تبرع واحد فقط</div>
+        <div class="big-fact-source">NIH / الصليب الأحمر</div>
+      </div>
+      <div class="big-fact">
+        <div class="big-fact-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        </div>
+        <div class="big-fact-num">2<span>ث</span></div>
+        <div class="big-fact-label">شخص في العالم يحتاج<br>الدم كل ثانيتين</div>
+        <div class="big-fact-source">منظمة الصحة العالمية</div>
+      </div>
+      <div class="big-fact">
+        <div class="big-fact-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+        </div>
+        <div class="big-fact-num">3<span>%</span></div>
+        <div class="big-fact-label">فقط من المؤهلين<br>يتبرعون بالدم سنوياً</div>
+        <div class="big-fact-source">NIH / الصليب الأحمر</div>
+      </div>
+      <div class="big-fact">
+        <div class="big-fact-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        </div>
+        <div class="big-fact-num">118<span>م</span></div>
+        <div class="big-fact-label">وحدة دم تُجمع<br>حول العالم سنوياً</div>
+        <div class="big-fact-source">قاعدة بيانات الصحة العالمية</div>
+      </div>
+    </div>
+
+    <!-- Cards -->
+    <div class="cards-grid">
+      <div class="fact-card">
+        <div class="fact-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        </div>
+        <div class="fact-card-title">ضروري للعمليات والسرطان</div>
+        <div class="fact-card-text">الدم ضروري للعمليات الجراحية وعلاج السرطان والأمراض المزمنة والإصابات. في عام 2021، بلغ عدد عمليات نقل الدم ما يقارب 10.8 مليون حالة في الولايات المتحدة وحدها.</div>
+        <div class="fact-card-tag">حاجة حيوية</div>
+        <span class="fact-card-source">المصدر: مسح CDC الوطني لجمع الدم 2021</span>
+      </div>
+      <div class="fact-card">
+        <div class="fact-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+        </div>
+        <div class="fact-card-title">صحة الأم والطفل</div>
+        <div class="fact-card-text">عمليات نقل الدم لا غنى عنها في رعاية الأمومة والطفولة. في الدول منخفضة الدخل، يصل 54% من عمليات النقل لأطفال دون سن الخامسة.</div>
+        <div class="fact-card-tag">أثر اجتماعي</div>
+        <span class="fact-card-source">المصدر: منظمة الصحة العالمية</span>
+      </div>
+      <div class="fact-card">
+        <div class="fact-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div class="fact-card-title">فحص صحي مجاني</div>
+        <div class="fact-card-text">كل وحدة دم مُتبرع بها تُفحص لأكثر من 13 مرضاً معدياً قبل الاستخدام، بما فيها الإيدز والتهاب الكبد. يستفيد المتبرعون من فحص صحي شامل مجاني مع كل تبرع.</div>
+        <div class="fact-card-tag">فائدة للمتبرع</div>
+        <span class="fact-card-source">المصدر: منظمة الصحة العالمية / الصليب الأحمر</span>
+      </div>
+      <div class="fact-card">
+        <div class="fact-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <div class="fact-card-title">الأمراض المزمنة</div>
+        <div class="fact-card-text">ما بين 90,000 و100,000 شخص يعانون من مرض فقر الدم المنجلي في الولايات المتحدة، كثيرون منهم يحتاجون عمليات نقل دم منتظمة طوال حياتهم.</div>
+        <div class="fact-card-tag">أمراض مزمنة</div>
+        <span class="fact-card-source">المصدر: الصليب الأحمر الأمريكي</span>
+      </div>
+      <div class="fact-card">
+        <div class="fact-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+        </div>
+        <div class="fact-card-title">حوادث الطوارئ</div>
+        <div class="fact-card-text">ضحية حادث سيارة واحدة قد تحتاج ما يصل إلى 100 وحدة دم. حوالي 29,000 وحدة من كريات الدم الحمراء مطلوبة يومياً في الولايات المتحدة وحدها.</div>
+        <div class="fact-card-tag">رعاية طارئة</div>
+        <span class="fact-card-source">المصدر: الصليب الأحمر الأمريكي</span>
+      </div>
+      <div class="fact-card">
+        <div class="fact-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+        </div>
+        <div class="fact-card-title">تقوية روابط المجتمع</div>
+        <div class="fact-card-text">التبرع بالدم يعزز الروابط الاجتماعية وروح المجتمع. التبرع الطوعي غير المدفوع هو الأساس الوحيد الآمن والمستدام لإمداد الدم الوطني.</div>
+        <div class="fact-card-tag">مجتمع</div>
+        <span class="fact-card-source">المصدر: منظمة الصحة العالمية / PAHO 2024</span>
+      </div>
+    </div>
+
+    <!-- Quote -->
+    <div class="quote-wrap">
+      <div class="quote-text">
+        "التبرع بالدم <strong>يساعد في تعزيز الروابط الاجتماعية ومجتمعية.</strong> تعزيز التبرع الطوعي والتنسيق بين شبكات خدمات الدم يساعد في <strong>تحسين حياة الملايين وإنقاذها.</strong>"
+      </div>
+      <div class="quote-author">— د. جارباس باربوسا، مدير منظمة PAHO/WHO · اليوم العالمي للمتبرعين بالدم 2024</div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-wrap">
+      <div class="cta-title">مستعد لإحداث فرق؟</div>
+      <div class="cta-sub">انضم إلى آلاف المتبرعين الذين ينقذون الأرواح عبر BloodBridge</div>
+      <div class="cta-buttons">
+        <button class="btn-primary" routerLink="/register">ابدأ التبرع</button>
+        <button class="btn-secondary" routerLink="/login">تسجيل الدخول</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  BloodBridge © 2025 — بُني بـ ♥ لإنقاذ الأرواح · البيانات من منظمة الصحة العالمية والصليب الأحمر
+</div>

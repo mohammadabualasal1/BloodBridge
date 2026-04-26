@@ -36,19 +36,20 @@ export class BloodRequests implements OnInit {
     });
   }
 
-  donate(bloodRequestId: number) {
-    this.isDonating = true;
-    this.donorService.createDonation(bloodRequestId).subscribe({
-      next: () => {
-        this.isDonating = false;
-        this.loadRequests();
-      },
-      error: (err) => {
-        this.isDonating = false;
-        alert(err.error?.message || 'حدث خطأ، حاول مرة أخرى.');
-      }
-    });
-  }
+ donate(bloodRequestId: number) {
+  this.isDonating = true;
+  this.donorService.createDonation(bloodRequestId).subscribe({
+    next: () => {
+      this.isDonating = false;
+      this.showToastMessage('✅ تم إرسال طلب تبرعك بنجاح! سيتم التواصل معك من قبل المستشفى.');
+      this.loadRequests();
+    },
+    error: (err) => {
+      this.isDonating = false;
+      this.showToastMessage(err.error?.message || 'حدث خطأ، حاول مرة أخرى.');
+    }
+  });
+}
 
   getUrgencyClass(urgency: string) {
     switch (urgency) {
@@ -67,4 +68,14 @@ export class BloodRequests implements OnInit {
     this.authService.logout();
     this.router.navigate(['/login']);
   }
+  showToast = false;
+toastMessage = '';
+
+
+
+showToastMessage(msg: string) {
+  this.toastMessage = msg;
+  this.showToast = true;
+  setTimeout(() => { this.showToast = false; }, 3000);
+}
 }

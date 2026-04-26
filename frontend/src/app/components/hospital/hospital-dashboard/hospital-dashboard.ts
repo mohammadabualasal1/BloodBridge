@@ -25,12 +25,13 @@ export class HospitalDashboard implements OnInit {
     quantity: null,
     urgency: ''
   };
+allRequests: any[] = [];
 recentRequests: any[] = [];
-get totalRequests() { return this.recentRequests.length; }
-  get pendingRequests() { return this.requests.filter(r => r.status === 'Pending').length; }
-  get fulfilledRequests() { return this.requests.filter(r => r.status === 'Fulfilled').length; }
-  get cancelledRequests() { return this.requests.filter(r => r.status === 'Cancelled').length; }
 
+get totalRequests() { return this.allRequests.length; }
+get pendingRequests() { return this.allRequests.filter(r => r.status === 'Pending').length; }
+get fulfilledRequests() { return this.allRequests.filter(r => r.status === 'Fulfilled').length; }
+get cancelledRequests() { return this.allRequests.filter(r => r.status === 'Cancelled').length; }
   constructor(private authService: Auth, private hospitalService: Hospital, private router: Router) {}
 
 
@@ -45,11 +46,11 @@ get totalRequests() { return this.recentRequests.length; }
     this.hospitalName = localStorage.getItem('name') || 'المستشفى';
     this.loadRequests();
   }
-
- loadRequests() {
+loadRequests() {
   this.isLoading = true;
   this.hospitalService.getMyRequests().subscribe({
     next: (data) => {
+      this.allRequests = data;
       const sevenDaysAgo = new Date();
       sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
       this.recentRequests = data.filter(r => new Date(r.createdAt) >= sevenDaysAgo);
