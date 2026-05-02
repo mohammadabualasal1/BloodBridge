@@ -5,7 +5,7 @@ BloodBridge is a full-stack web application developed to connect blood donors wi
 
 ---
 
-![BloodBridge Landing](screenshots/splash.png)
+![BloodBridge Landing](screenshotspr/splash.png)
 
 ---
 
@@ -23,22 +23,22 @@ BloodBridge is a full-stack web application developed to connect blood donors wi
 ## 📸 Screenshots
 
 ### Login Page
-![Login](screenshots/login.png)
+![Login](screenshotspr/login.png)
 
 ### Admin Dashboard
-![Admin Dashboard](screenshots/Admin.png)
+![Admin Dashboard](screenshotspr/Admin.png)
 
 ### Hospital Dashboard
-![Hospital Dashboard](screenshots/Hospitaldashboard.png)
+![Hospital Dashboard](screenshotspr/Hospitaldashboard.png)
 
 ### Hospital Blood Requests
-![Hospital Blood Requests](screenshots/HospitalBloodRequset.png)
+![Hospital Blood Requests](screenshotspr/HospitalBloodRequset.png)
 
 ### Donor Complete Profile
-![Donor Complete Profile](screenshots/usercompleteprofile.png)
+![Donor Complete Profile](screenshotspr/usercompleteprofile.png)
 
 ### Donor Dashboard
-![Donor Dashboard](screenshots/userdashboard.png)
+![Donor Dashboard](screenshotspr/userdashboard.png)
 
 ---
 
@@ -76,4 +76,3 @@ BloodBridge is a full-stack web application developed to connect blood donors wi
 ## Author
 Mohammad Abu-Alasal  
 Computer Science Graduate – Jordan University of Science and Technology  
-[GitHub](https://github.com/mohammadabualasal1)
